@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>aura_bringup</name>
+  <version>1.0.0</version>
+  <description>Launch files and configuration for the AURA middleware demo.</description>
+  <maintainer email="ram@example.com">Ram</maintainer>
+  <license>MIT</license>
+  <exec_depend>aura_core</exec_depend>
+  <exec_depend>aura_dashboard</exec_depend>
+  <exec_depend>aura_examples</exec_depend>
+  <export><build_type>ament_python</build_type></export>
+</package>

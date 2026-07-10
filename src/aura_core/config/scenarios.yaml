@@ -1,0 +1,83 @@
+# AURA evaluation scenarios.
+# Consumed by scenario_manager_node. Times are in simulated seconds.
+# Event types:
+#   ramp  — linearly move `variable` from `from` to `to` between start/end
+#   step  — set `variable` to `value` at time `at`
+#   drain — subtract `rate` per second from `variable` (floor-clamped)
+# weight_schedule entries publish an operator weight command at `at`.
+
+scenarios:
+  S1:
+    name: "Human Intrusion Mid-Delivery"
+    description: "A human walks toward the robot in CORRIDOR_NORTH; proximity falls 4.2m -> 0.8m over 7 seconds."
+    duration: 25
+    weights: {safety: 0.6, time: 0.3, energy: 0.1}
+    context:
+      battery_level: 0.8
+      human_proximity: 4.2
+      obstacle_density: 0.1
+      localization_confidence: 0.95
+      mission_priority: normal
+    events:
+      - {type: ramp, variable: human_proximity, start: 8, end: 15, from: 4.2, to: 0.8}
+    weight_schedule: []
+
+  S2:
+    name: "Battery Critical During Long Route"
+    description: "Urgent delivery; battery drains 0.02/s from 0.35 and crosses the 0.20 critical threshold mid-route."
+    duration: 25
+    weights: {safety: 0.3, time: 0.4, energy: 0.3}
+    context:
+      battery_level: 0.35
+      human_proximity: 5.0
+      obstacle_density: 0.2
+      localization_confidence: 0.92
+      mission_priority: urgent
+    events:
+      - {type: drain, variable: battery_level, rate: 0.02, floor: 0.05}
+    weight_schedule: []
+
+  S3:
+    name: "Emergency Override (Three-Way Conflict)"
+    description: "Mission priority jumps to emergency at T+10s with battery low and a cluttered aisle — time, energy and safety all demand different policies."
+    duration: 25
+    weights: {safety: 0.4, time: 0.4, energy: 0.2}
+    context:
+      battery_level: 0.25
+      human_proximity: 3.0
+      obstacle_density: 0.7        # cluttered aisle: danger genuinely present (C4)
+      localization_confidence: 0.88
+      mission_priority: normal
+    events:
+      - {type: step, variable: mission_priority, at: 10, value: emergency}
+    weight_schedule: []
+
+  S4:
+    name: "Localization Failure Zone"
+    description: "The robot enters DEADZONE_EAST behind tall metal shelves; localization confidence decays 0.91 -> 0.38 over 10 seconds."
+    duration: 25
+    weights: {safety: 0.5, time: 0.3, energy: 0.2}
+    context:
+      battery_level: 0.7
+      human_proximity: 4.0
+      obstacle_density: 0.2
+      localization_confidence: 0.91
+      mission_priority: normal
+    events:
+      - {type: ramp, variable: localization_confidence, start: 8, end: 18, from: 0.91, to: 0.38}
+    weight_schedule: []
+
+  S5:
+    name: "Human-in-the-Loop Weight Change"
+    description: "Context is steady (human at 1.8m) but at T+15s the operator drops w_safety 0.6 -> 0.2 and raises w_time 0.3 -> 0.6."
+    duration: 25
+    weights: {safety: 0.6, time: 0.3, energy: 0.1}
+    context:
+      battery_level: 0.7
+      human_proximity: 1.8
+      obstacle_density: 0.2
+      localization_confidence: 0.93
+      mission_priority: normal
+    events: []
+    weight_schedule:
+      - {at: 15, w_safety: 0.2, w_time: 0.6, w_energy: 0.2}

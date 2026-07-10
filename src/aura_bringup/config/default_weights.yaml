@@ -1,0 +1,7 @@
+# Default operator weights for the utility planner.
+# Change live with:  ros2 param set /utility_planner w_safety 0.2
+utility_planner:
+  ros__parameters:
+    w_safety: 0.5
+    w_time: 0.3
+    w_energy: 0.2

@@ -1,0 +1,12 @@
+build/
+install/
+log/
+__pycache__/
+*.pyc
+*.egg-info/
+.colcon_install_layout
+*.bag
+*.csv
+*.log
+*.swp
+aura_logs/
