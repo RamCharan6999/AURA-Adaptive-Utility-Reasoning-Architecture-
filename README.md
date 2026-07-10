@@ -54,7 +54,7 @@ AURA was inspired by the work of Wohlrab et al. (2023) on explaining quality att
 
 A 60-second demonstration video is planned and will be linked here.
 
-<!-- [▶ Watch the demo](https://youtube.com/YOUR_LINK) -->
+[▶ Watch the demo](https://drive.google.com/file/d/1t-igl10lmtP4wRHWzqWPg59DZy4--ksN/view?usp=drive_link)
 
 ---
 
